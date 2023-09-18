@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Basketlogo from './assets/icons8-basket-48.png';
 import Basketalllogo from './assets/icons8-basket-64.png';
+import useStickyState from '../src/helper';
 
 const productList = [
     {
@@ -91,10 +92,11 @@ const productList = [
 
   ]
 
-let price = 0;
+
 let adet = 0;
 
-function ShoppingCart({ cart, setCart}){
+function ShoppingCart({ cart, setCart, price, setPrice}){
+
 
   if(cart.length === 0 ){
     return;
@@ -102,8 +104,9 @@ function ShoppingCart({ cart, setCart}){
 
   function deleteCart(){
   setCart([]);
-  price =0;
+  setPrice(0);
 }
+
 
   function increase(productId){
     const productAdd = productList.find(x => x.id == productId);
@@ -111,11 +114,13 @@ function ShoppingCart({ cart, setCart}){
     if(productAdd.stock > 0){
             const updateCart = [...cart];
             const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
-            
+            let newPrice = price;
+
             if(alreadyhaveindex !== -1){
               updateCart[alreadyhaveindex].quantity += 1;
               productAdd.stock -=1;
-              price += productAdd.price;
+              newPrice += productAdd.price;
+              setPrice(newPrice);
               adet+=1;
             }
             setCart(updateCart);
@@ -132,7 +137,7 @@ function ShoppingCart({ cart, setCart}){
     const productAdd = productList.find(x => x.id === productId);
     const updateCart = [...cart];
     const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
-    
+    let newPrice = price;
     if(alreadyhaveindex !== -1){
       if(updateCart[alreadyhaveindex].quantity === 1){
         productAdd.stock +=1;
@@ -147,11 +152,12 @@ function ShoppingCart({ cart, setCart}){
     }
     
     setCart(updateCart);
-    price -= productAdd.price;
+    newPrice -= productAdd.price; 
+    setPrice(newPrice);
   }
 
   return (
-    <div className='basket-all'>
+    <div className='basket-all' id='sepet'>
       <h2>Sepet</h2>
       <ul className='basket-list'>
         {cart.map((product) => (
@@ -178,7 +184,7 @@ function ShoppingCart({ cart, setCart}){
   );
 }
 
-function ShowList({ cart, setCart }){
+function ShowList({ cart, setCart, price, setPrice }){
   const [category, setCategory] = useState('');
   const handleCategoryClick = (selectedCategory) => {
     setCategory(selectedCategory);
@@ -191,30 +197,34 @@ function ShowList({ cart, setCart }){
     const addToCart = (productId) => {
 
       const productAdd = productList.find(x => x.id == productId);
-      const productIndex = productList.findIndex(x => x.id === productId);
+      //const productIndex = productList.findIndex(x => x.id === productId);
        
         
           if(productAdd.stock > 0){
             const updateCart = [...cart];
             const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
+            let newPrice =  price;
             
             if(alreadyhaveindex !== -1){
               updateCart[alreadyhaveindex].quantity += 1;
               productAdd.stock -=1;
-              price += productAdd.price;
+              newPrice+= productAdd.price;
+              setPrice(newPrice);
               adet+=1;
 
             }else {
               updateCart.push({...productAdd, quantity:1})
               productAdd.stock -=1;
-              price += productAdd.price;
+              newPrice+= productAdd.price;
+              setPrice(newPrice);
               adet+=1;
               
             }
              setCart(updateCart);
           }else {
-            productList.splice(productIndex,1);
             alert('Bu üründen daha fazla yok');
+            return;
+           
           }
         }
   return (
@@ -244,19 +254,22 @@ function ShowList({ cart, setCart }){
 
 
 export function App(){
-const [cart, setCart] = useState([]);
+const [cart, setCart] = useStickyState([],'cart');
+const [price,setPrice] = useStickyState(0,'price');
   return (
     <>
     <div className='container'>
     <div className='header'>
     <h1 className='title'>Products</h1>
     <div className='img-position'>
+      <a href="#sepet">
     <img src={Basketalllogo} className="all-logo" alt="basket-logo2" />
+    </a>
     <span className='basketItem'>{adet}</span>
     </div>
     </div>
-    <ShowList cart={cart} setCart={setCart}/>
-    <ShoppingCart cart={cart} setCart={setCart}/>
+    <ShowList cart={cart} setCart={setCart} price={price} setPrice={setPrice}/>
+    <ShoppingCart cart={cart} setCart={setCart} price={price} setPrice={setPrice}/>
     </div>
     </>
   )
