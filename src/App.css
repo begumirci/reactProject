@@ -222,3 +222,62 @@ li{
   font-weight: bold;
   margin-bottom:1.5em;
 }
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs input{
+  width:300px;
+  border-radius: 7px;
+  border-style:solid;
+  border-color: rgba(0,0,0,0.1);
+}
+
+.inputs input::placeholder{
+  padding-left:7px;
+}
+
+.inputs input:first-child{
+  margin-top:25px;
+}
+
+.ürün-ekle{
+  width:300px;
+  border-radius: 7px;
+  border-style:solid;
+  border-color: rgba(0,0,0,0.1);
+  padding-block:2px;
+  cursor: pointer;
+}
+
+.ürün-ekle:hover{
+  background-color: #C651CD;
+  color:wheat;
+}
+
+.ürünicin{
+  color:#C651CD;
+  font-weight: bold;
+  font-size:1em;
+  margin-top:2rem;
+}
+
+.ürünicin input{
+  margin-right: 7px;
+}
+
+.category-kismi{
+  border-color: rgba(0,0,0,0.1);
+}
+
+.urunler-header{
+  text-align: center;
+  color:#8739F9;
+  margin-bottom:2em;
+  margin-top:1em;
+}
