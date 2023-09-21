@@ -49,6 +49,31 @@ li{
   position: relative;
 }
 
+.search-basket{
+  display: flex;
+  align-items: center;
+  gap:20px;
+
+}
+
+
+.active {
+  display: none;
+}
+
+.search-input{
+  border-radius: 20px;
+  border-color:#C651CD;
+  border-style:solid;
+  padding-left: 7px;
+  color:#717171;
+}
+
+.search-basket:focus{
+  border-color:pink;
+}
+
+
 .header{
   display: flex;
   justify-content: space-between;

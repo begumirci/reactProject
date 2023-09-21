@@ -106,6 +106,7 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList, setProductL
   function deleteCart(){
   setCart([]);
   setPrice(0);
+  adet = 0;
 }
 
   //Sepet içinde adet arttırma
@@ -187,16 +188,29 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList, setProductL
 
 function ShowList({ cart, setCart, price, setPrice, productList, setProductList }){
 
+  let filteredProducts = [];
+  
   //Kategoriye ayırma
   const [category, setCategory] = useState('');
+  const [search, setSearch] = useState('');
+  
+
   const handleCategoryClick = (selectedCategory) => {
     setCategory(selectedCategory);
   };
 
-  const filteredProducts = category
-    ? productList.filter((product) => product.category === category)
-    : productList;
-
+  if(category){
+      if(category == 'Tümü'){
+      filteredProducts = productList;
+      }else{
+        filteredProducts = productList.filter((product) => product.category === category);
+      }
+    }else{
+    filteredProducts = productList;
+    }
+  if(search){
+    filteredProducts = productList.filter(product => product.title.toLocaleLowerCase('tr').includes(search.toLocaleLowerCase('tr')));
+  }  
     //Sepete ürün ekleme
     const addToCart = (productId) => {
 
@@ -237,11 +251,16 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList 
       <div className='header'>
         <h1 className='title'>Products</h1>
         <div className='img-position'>
+          <div className='search-basket'>
+           <input className='search-input' type="text" placeholder='Search' value={search} onChange={(e) => {setSearch(e.target.value)}} /> 
           <a href="#sepet"><img src={Basketalllogo} className="all-logo" alt="basket-logo2" /></a>
+          
           <span className='basketItem'>{adet}</span> 
+          </div>
         </div>
       </div>
       <div id="category-list">
+        <a href='#' onClick={() => handleCategoryClick('Tümü')}>Tümü</a>
         <a href='#' onClick={() => handleCategoryClick('Elektronik')}>Elektronik</a>
         <a href='#' onClick={() => handleCategoryClick('Tekstil')}>Tekstil</a>
         <a href='#' onClick={() => handleCategoryClick('Spor')}>Spor</a>
@@ -255,11 +274,12 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList 
               <span className='product-title'><strong>Price: </strong>{product.price} ₺</span>
               <span className='product-title'><strong>Stock: </strong>{product.stock}</span>
             </div>
-            <img src={Basketlogo} className="logo" onClick={() => addToCart(product.id)} alt="basket-logo" />
+            <a href="#sepet"><img src={Basketlogo} className="logo" onClick={() => addToCart(product.id)} alt="basket-logo" /></a>
           </div>
         ))}
       </div>
     </div>
+
   );
 }  
 
@@ -285,6 +305,7 @@ function addProduct(){
   setCategory('');
   setCost('');
   setStock('');
+  alert('Ürünü başarıyla eklediniz');
 }
 
 let lastProductId = 0;
@@ -301,6 +322,7 @@ function ProductId(){
  function handleChange(e){
      setCategory(e.target.value)
  }
+ 
 console.log(category);
   return (
    <div>
@@ -428,10 +450,6 @@ const [productList, setProductList] = useStickyState([{
       stock:3
     }])
 
-
-
-
-
 function editMod(e){
   setisEditmodOn(e.target.checked);
 }
@@ -439,19 +457,11 @@ function editMod(e){
   return (
   <>
     <div className='container'>
-      
-    <label className='ürünicin'><input type="checkbox" onClick={editMod} />Ürünler için</label>
-    {isEditModOn ? (<><ShowList cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList}/>
-    <ShoppingCart cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList}/></>) :
-     <Fixed  productList={productList} setProductList={setProductList}/>
+    <label className='ürünicin'><input type="checkbox" onClick={editMod} />Ürün Ekle</label>
+    {isEditModOn ? (<Fixed  productList={productList} setProductList={setProductList}/>) : (<><ShowList cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList}/>
+    <ShoppingCart cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList}/></>) 
      }
     </div>
-    
-    {/* { if(editMod == false){
-      <ShowList cart={cart} setCart={setCart} price={price} setPrice={setPrice}/>
-
-      <ShoppingCart cart={cart} setCart={setCart} price={price} setPrice={setPrice}/>
-    }} */}
   </>
   )
   
