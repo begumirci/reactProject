@@ -247,6 +247,10 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList 
           }
         }
 
+        function delProduct(productId){
+           setProductList(productList.filter((urun) => urun.id !== productId));
+        }
+
   return (
     <div>
       <div className='header'>
@@ -275,7 +279,10 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList 
               <span className='product-title'><strong>Price: </strong>{product.price} ₺</span>
               <span className='product-title'><strong>Stock: </strong>{product.stock}</span>
             </div>
+            <div className='basket-buton'>
             <a href="#sepet"><img src={Basketlogo} className="logo" onClick={() => addToCart(product.id)} alt="basket-logo" /></a>
+            <button className='del-product' onClick={() => delProduct(product.id)}>Ürünü Sil</button>
+            </div>
           </div>
         ))}
       </div>

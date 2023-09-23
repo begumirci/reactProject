@@ -306,3 +306,27 @@ li{
   margin-bottom:2em;
   margin-top:1em;
 }
+
+.del-product{
+  border-radius: 18px;
+  height: 30px;
+  padding-inline:7px;
+  text-align: center;
+  border-color:white;
+  border-style: solid;
+  background-color:#C651CD;
+  color:#8739F9;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.del-product:hover{
+  background-color: #8739F9;
+  color:#C651CD;
+}
+
+.basket-buton{
+  display: flex;
+  gap:20px;
+  align-items: center;
+}
