@@ -3,6 +3,7 @@ import './App.css';
 import Basketlogo from './assets/icons8-basket-48.png';
 import Basketalllogo from './assets/icons8-basket-64.png';
 import useStickyState from '../src/helper';
+import { Switch } from 'antd';
 
 // const productList = [
 //     {
@@ -95,7 +96,7 @@ import useStickyState from '../src/helper';
 
 let adet = 0;
 
-function ShoppingCart({ cart, setCart, price, setPrice, productList, setProductList}){
+function ShoppingCart({ cart, setCart, price, setPrice, productList}){
 
   //Sepette ürün yoksa sepeti gösterme
   if(cart.length === 0 ){
@@ -450,14 +451,20 @@ const [productList, setProductList] = useStickyState([{
       stock:3
     }])
 
-function editMod(e){
-  setisEditmodOn(e.target.checked);
+function editMod(){
+  
+  if(isEditModOn){
+    setisEditmodOn(false);
+  }else{
+    setisEditmodOn(true);
+  }
 }
 
   return (
   <>
     <div className='container'>
-    <label className='ürünicin'><input type="checkbox" onClick={editMod} />Ürün Ekle</label>
+      <Switch onClick={editMod} className='ürünicin' />
+    {/* <label className='ürünicin'><input type="checkbox" onClick={editMod} />Ürün Ekle</label> */}
     {isEditModOn ? (<Fixed  productList={productList} setProductList={setProductList}/>) : (<><ShowList cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList}/>
     <ShoppingCart cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList}/></>) 
      }
