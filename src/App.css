@@ -55,10 +55,14 @@ li{
   gap:20px;
 
 }
-
-
 .active {
   display: none;
+}
+
+.sepet-search-basket{
+  display: flex;
+  flex-direction: column;
+
 }
 
 .search-input{
