@@ -119,13 +119,13 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList}){
     if(productAdd.stock > 0){
             const updateCart = [...cart];
             const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
-            let newPrice = price;
+            // let newPrice = price;
 
             if(alreadyhaveindex !== -1){
               updateCart[alreadyhaveindex].quantity += 1;
               productAdd.stock -=1;
-              newPrice += productAdd.price;
-              setPrice(newPrice);
+              price += productAdd.price;
+              setPrice(price);
               adet+=1;
             }
             setCart(updateCart);
@@ -141,7 +141,7 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList}){
     const updateCart = [...cart];
 
     const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
-    let newPrice = price;
+    // let newPrice = price;
 
     if(alreadyhaveindex !== -1){
       if(updateCart[alreadyhaveindex].quantity === 1){
@@ -157,8 +157,8 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList}){
     }
     
     setCart(updateCart);
-    newPrice -= productAdd.price; 
-    setPrice(newPrice);
+    price -= productAdd.price; 
+    setPrice(price);
   }
 
   return (
@@ -221,8 +221,6 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
       filteredProducts = productList.filter(product => product.title.toLocaleLowerCase('tr').includes(search.toLocaleLowerCase('tr')));
   }  
 
-  
-  
     //Sepete ürün ekleme
     const addToCart = (productId) => {
 
@@ -232,20 +230,20 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
           if(productAdd.stock > 0){
             const updateCart = [...cart];
             const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
-            let newPrice =  price;
+            // let newPrice =  price;
             
             if(alreadyhaveindex !== -1){
               updateCart[alreadyhaveindex].quantity += 1;
               productAdd.stock -=1;
-              newPrice+= productAdd.price;
-              setPrice(newPrice);
+              price+= productAdd.price;
+              setPrice(price);
               adet+=1;
 
             }else {
               updateCart.push({...productAdd, quantity:1})
               productAdd.stock -=1;
-              newPrice+= productAdd.price;
-              setPrice(newPrice);
+              price+= productAdd.price;
+              setPrice(price);
               adet+=1;
               
             }
@@ -253,7 +251,6 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
           }else {
             alert('Bu üründen daha fazla yok');
             return;
-           
           }
         }
 
