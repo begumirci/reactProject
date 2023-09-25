@@ -55,6 +55,10 @@ li{
   gap:20px;
 
 }
+
+#category-list a:focus{
+  color:#8739F9;
+}
 .active {
   display: none;
 }
