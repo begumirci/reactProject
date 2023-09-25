@@ -130,18 +130,15 @@ function StockRender(){
     const productAdd = productList.find(x => x.id == productId);
     
     if(productAdd.stock > 0){
-            const updateCart = [...cart];
-            const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
-            // let newPrice = price;
-
+            const alreadyhaveindex = cart.findIndex(x => x.id === productId);
             if(alreadyhaveindex !== -1){
-              updateCart[alreadyhaveindex].quantity += 1;
+              cart[alreadyhaveindex].quantity += 1;
               productAdd.stock -=1;
               price += productAdd.price;
               setPrice(price);
               setAdet(adet + 1);
             }
-            setCart(updateCart);
+            setCart([...cart]);
             // setProductList([...productList]);
             
           
@@ -153,23 +150,22 @@ function StockRender(){
   function decrease(productId){
 
     const productAdd = productList.find(x => x.id === productId);
-    const updateCart = [...cart];
-    const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
+    const alreadyhaveindex = cart.findIndex(x => x.id === productId);
     
 
     if(alreadyhaveindex !== -1){
-      if(updateCart[alreadyhaveindex].quantity === 1){
+      if(cart[alreadyhaveindex].quantity === 1){
         productAdd.stock +=1;
-        updateCart.splice(alreadyhaveindex,1);
+        cart.splice(alreadyhaveindex,1);
         
         
       }else{
-        updateCart[alreadyhaveindex].quantity -=1;
+        cart[alreadyhaveindex].quantity -=1;
         productAdd.stock +=1;
       }
     }
     
-    setCart(updateCart);
+    setCart([...cart]);
     price -= productAdd.price; 
     setPrice(price);
     
@@ -245,26 +241,23 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
 
       const productAdd = productList.find(x => x.id == productId);
       // console.log(productAdd);
-
           if(productAdd.stock > 0){
-            const updateCart = [...cart];
-            const alreadyhaveindex = updateCart.findIndex(x => x.id === productId);
+            const alreadyhaveindex = cart.findIndex(x => x.id === productId);
            
-            
             if(alreadyhaveindex !== -1){
-              updateCart[alreadyhaveindex].quantity += 1;
+              cart[alreadyhaveindex].quantity += 1;
               productAdd.stock -=1;
               price+= productAdd.price;
               setPrice(price);
 
             }else {
-              updateCart.push({...productAdd, quantity:1})
+              cart.push({...productAdd, quantity:1})
               productAdd.stock -=1;
               price+= productAdd.price;
               setPrice(price);
             }
 
-             setCart(updateCart);
+             setCart([...cart]);
             //  setProductList([...productList]);
              setAdet(adet + 1);
              
