@@ -300,6 +300,12 @@ li{
   margin-top:2rem;
 }
 
+.name-user{
+  display: flex;
+  flex-direction: column;
+  gap:4px;
+}
+
 .ürünicin input{
   margin-right: 7px;
 }
@@ -337,4 +343,10 @@ li{
   display: flex;
   gap:20px;
   align-items: center;
+}
+
+.user-form{
+  display: flex;
+  align-items:center;
+  justify-content: center;
 }
