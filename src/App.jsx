@@ -8,12 +8,6 @@ import { Switch } from 'antd';
 import User from './components/User';
 import supabase from './components/supabase';
 
-
-
-
-
-
-
 // const productList = [
 //     {
 //       id:1,
@@ -102,11 +96,15 @@ import supabase from './components/supabase';
 
 //   ]
 
-
-
-
-function ShoppingCart({ cart, setCart, price, setPrice, productList, adet, setAdet}) {
-
+function ShoppingCart({
+  cart,
+  setCart,
+  price,
+  setPrice,
+  productList,
+  adet,
+  setAdet,
+}) {
   //Sepette ürün yoksa sepeti gösterme
   if (cart.length === 0) {
     return;
@@ -118,25 +116,23 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList, adet, setAd
     setPrice(0);
     setAdet(0);
     StockRender();
-
   }
 
   function StockRender() {
-    cart.forEach(element => {
-      const product = productList.find(x => x.id == element.id)
+    cart.forEach((element) => {
+      const product = productList.find((x) => x.id == element.id);
       if (product) {
         product.stock += element.quantity;
       }
     });
-
   }
 
   //Sepet içinde adet arttırma
   function increase(productId) {
-    const productAdd = productList.find(x => x.id == productId);
+    const productAdd = productList.find((x) => x.id == productId);
 
     if (productAdd.stock > 0) {
-      const alreadyhaveindex = cart.findIndex(x => x.id === productId);
+      const alreadyhaveindex = cart.findIndex((x) => x.id === productId);
       if (alreadyhaveindex !== -1) {
         cart[alreadyhaveindex].quantity += 1;
         productAdd.stock -= 1;
@@ -146,25 +142,19 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList, adet, setAd
       }
       setCart([...cart]);
       // setProductList([...productList]);
-
-
     } else {
       alert('Bu üründen daha fazla yok');
     }
   }
   //Sepet içinde ürün arttırmak
   function decrease(productId) {
-
-    const productAdd = productList.find(x => x.id === productId);
-    const alreadyhaveindex = cart.findIndex(x => x.id === productId);
-
+    const productAdd = productList.find((x) => x.id === productId);
+    const alreadyhaveindex = cart.findIndex((x) => x.id === productId);
 
     if (alreadyhaveindex !== -1) {
       if (cart[alreadyhaveindex].quantity === 1) {
         productAdd.stock += 1;
         cart.splice(alreadyhaveindex, 1);
-
-
       } else {
         cart[alreadyhaveindex].quantity -= 1;
         productAdd.stock += 1;
@@ -187,13 +177,27 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList, adet, setAd
           <li className='basket-item' key={product.id}>
             <div className='basket'>
               <span className='little-title'>Ürün Adı: {product.title}</span>
-              <span className='little-category'>Kategori: {product.category}</span>
+              <span className='little-category'>
+                Kategori: {product.category}
+              </span>
               <span className='little-price'>Fiyat: {product.price} ₺</span>
             </div>
             <div className='increase-decrease'>
-              <span className='decrease' onClick={() => decrease(product.id)} data-decreaseid={product.id}>-</span>
+              <span
+                className='decrease'
+                onClick={() => decrease(product.id)}
+                data-decreaseid={product.id}
+              >
+                -
+              </span>
               <span className='many'>{product.quantity}</span>
-              <span className='increase' onClick={() => increase(product.id)} data-increaseid={product.id}>+</span>
+              <span
+                className='increase'
+                onClick={() => increase(product.id)}
+                data-increaseid={product.id}
+              >
+                +
+              </span>
             </div>
           </li>
         ))}
@@ -201,14 +205,25 @@ function ShoppingCart({ cart, setCart, price, setPrice, productList, adet, setAd
       <hr />
       <div className='total-button'>
         <span className='total'>Toplam Fiyat: {price} ₺</span>
-        <button className='delete-btn' onClick={deleteCart} >Sepeti Sil</button>
+        <button className='delete-btn btn' onClick={deleteCart}>
+          Sepeti Sil
+        </button>
       </div>
     </div>
   );
 }
 
-function ShowList({ cart, setCart, price, setPrice, productList, setProductList, isOpen, setIsOpen }) {
- const [user, setUser] = useState('');
+function ShowList({
+  cart,
+  setCart,
+  price,
+  setPrice,
+  productList,
+  setProductList,
+  isOpen,
+  setIsOpen,
+}) {
+  const [user, setUser] = useState('');
 
   let filteredProducts = [];
 
@@ -221,9 +236,9 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
   //Sepet Gösterme
   function ShowBasket() {
     if (isOpen == false) {
-      setIsOpen(true)
+      setIsOpen(true);
     } else {
-      setIsOpen(false)
+      setIsOpen(false);
     }
   }
   //Kategoriler
@@ -235,31 +250,35 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
     if (category == 'Tümü') {
       filteredProducts = productList;
     } else {
-      filteredProducts = productList.filter((product) => product.category === category);
+      filteredProducts = productList.filter(
+        (product) => product.category === category
+      );
     }
   } else {
     filteredProducts = productList;
   }
   if (search) {
-    filteredProducts = productList.filter(product => product.title.toLocaleLowerCase('tr').includes(search.toLocaleLowerCase('tr')));
+    filteredProducts = productList.filter((product) =>
+      product.title
+        .toLocaleLowerCase('tr')
+        .includes(search.toLocaleLowerCase('tr'))
+    );
   }
 
   //Sepete ürün ekleme
   const addToCart = (productId) => {
-
-    const productAdd = productList.find(x => x.id == productId);
+    const productAdd = productList.find((x) => x.id == productId);
     // console.log(productAdd);
     if (productAdd.stock > 0) {
-      const alreadyhaveindex = cart.findIndex(x => x.id === productId);
+      const alreadyhaveindex = cart.findIndex((x) => x.id === productId);
 
       if (alreadyhaveindex !== -1) {
         cart[alreadyhaveindex].quantity += 1;
         productAdd.stock -= 1;
         price += productAdd.price;
         setPrice(price);
-
       } else {
-        cart.push({ ...productAdd, quantity: 1 })
+        cart.push({ ...productAdd, quantity: 1 });
         productAdd.stock -= 1;
         price += productAdd.price;
         setPrice(price);
@@ -268,13 +287,11 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
       setCart([...cart]);
       //  setProductList([...productList]);
       setAdet(adet + 1);
-
-
     } else {
       alert('Bu üründen daha fazla yok');
       return;
     }
-  }
+  };
 
   function delProduct(productId) {
     setProductList(productList.filter((urun) => urun.id !== productId));
@@ -287,7 +304,7 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
       setisUser(false);
     }
   }
-  async function Logout(){
+  async function Logout() {
     const { error } = await supabase.auth.signOut();
     setUser('');
   }
@@ -296,55 +313,118 @@ function ShowList({ cart, setCart, price, setPrice, productList, setProductList,
     <div>
       <div className='header'>
         <h1 className='title'>Products</h1>
-        
+
         <div className='sepet-search-basket'>
           <div className='search-basket'>
-            <input className='search-input' type="text" placeholder='Search' value={search} onChange={(e) => { setSearch(e.target.value) }} />
+            <input
+              className='search-input'
+              type='text'
+              placeholder='Search'
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
             <div className='img-position'>
-              <a href="#" onClick={ShowBasket} ><img src={Basketalllogo} className="all-logo" alt="basket-logo2" /></a>
+              <a href='#' onClick={ShowBasket}>
+                <img
+                  src={Basketalllogo}
+                  className='all-logo'
+                  alt='basket-logo2'
+                />
+              </a>
               <span className='basketItem'>{adet}</span>
-            </div>
-            <div className='name-user'>
-              <h6>{user}</h6>
-            <a href="#" onClick={ShowUser}><img src={UserLogo} alt="" /></a>
-            <a href="#" onClick={Logout}>Üyelikten Çık</a>
-            
             </div>
           </div>
           <div className='sepet'>
-            {isOpen ? (<ShoppingCart cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList} isOpen={isOpen} setIsOpen={setIsOpen} adet={adet} setAdet={setAdet} />) : ''}
+            {isOpen ? (
+              <ShoppingCart
+                cart={cart}
+                setCart={setCart}
+                price={price}
+                setPrice={setPrice}
+                productList={productList}
+                setProductList={setProductList}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                adet={adet}
+                setAdet={setAdet}
+              />
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </div>
-      <div id="category-list">
-        <a href='#' onClick={() => handleCategoryClick('Tümü')}>Tümü</a>
-        <a href='#' onClick={() => handleCategoryClick('Elektronik')}>Elektronik</a>
-        <a href='#' onClick={() => handleCategoryClick('Tekstil')}>Tekstil</a>
-        <a href='#' onClick={() => handleCategoryClick('Spor')}>Spor</a>
+      <div id='category-list'>
+        <a href='#' onClick={() => handleCategoryClick('Tümü')}>
+          Tümü
+        </a>
+        <a href='#' onClick={() => handleCategoryClick('Elektronik')}>
+          Elektronik
+        </a>
+        <a href='#' onClick={() => handleCategoryClick('Tekstil')}>
+          Tekstil
+        </a>
+        <a href='#' onClick={() => handleCategoryClick('Spor')}>
+          Spor
+        </a>
       </div>
       <div className='user-form'>
-        {isUser ? <User isUser={isUser} setisUser={setisUser} user={user} setUser={setUser} /> : ''}
+        {isUser ? (
+          <User
+            isUser={isUser}
+            setisUser={setisUser}
+            user={user}
+            setUser={setUser}
+          />
+        ) : (
+          ''
+        )}
       </div>
 
-      <div className="product-list">
+      <div className='product-list'>
         {filteredProducts.map((product) => (
           <div className='list-item' key={product.id}>
             <div className='product-info'>
               <span>id: {product.id}</span>
-              <span className='product-title'><strong>Product: </strong>{product.title}</span>
-              <span className='product-category'><strong>Category: </strong>{product.category}</span>
-              <span className='product-price'><strong>Price: </strong>{product.price} ₺</span>
-              <span className='product-stock'><strong>Stock: </strong>{product.stock}</span>
+              <span className='product-title'>
+                <strong>Product: </strong>
+                {product.title}
+              </span>
+              <span className='product-category'>
+                <strong>Category: </strong>
+                {product.category}
+              </span>
+              <span className='product-price'>
+                <strong>Price: </strong>
+                {product.price} ₺
+              </span>
+              <span className='product-stock'>
+                <strong>Stock: </strong>
+                {product.stock}
+              </span>
             </div>
             <div className='basket-buton'>
-              <a href="#sepet" onClick={ShowBasket}><img src={Basketlogo} className="logo" onClick={() => addToCart(product.id)} alt="basket-logo" /></a>
-              <button className='del-product' onClick={() => delProduct(product.id)}>Ürünü Sil</button>
+              <a href='#sepet' onClick={ShowBasket}>
+                <img
+                  src={Basketlogo}
+                  className='logo'
+                  onClick={() => addToCart(product.id)}
+                  alt='basket-logo'
+                />
+              </a>
+              <button
+                className='del-product'
+                onClick={() => delProduct(product.id)}
+              >
+                Ürünü Sil
+              </button>
             </div>
           </div>
         ))}
       </div>
     </div>
-
   );
 }
 
@@ -355,20 +435,19 @@ function Fixed({ productList, setProductList }) {
   const [stock, setStock] = useState('');
 
   function addProduct() {
-
     const newProduct = {
       id: ProductId(),
       title: title,
       category: category,
       price: Number(cost),
-      stock: stock
+      stock: stock,
     };
 
-    const alreadyHave = productList.find(product => product.title == title);
+    const alreadyHave = productList.find((product) => product.title == title);
     console.log(alreadyHave);
     if (alreadyHave == undefined) {
       setProductList([...productList, newProduct]);
-      alert('Ürün başarıyla eklendi')
+      alert('Ürün başarıyla eklendi');
     } else {
       alert('Bu ürün zaten mevcut!');
     }
@@ -377,8 +456,6 @@ function Fixed({ productList, setProductList }) {
     setCategory('');
     setCost('');
     setStock('');
-
-
   }
 
   let lastProductId = 12;
@@ -393,7 +470,7 @@ function Fixed({ productList, setProductList }) {
   }
 
   function handleChange(e) {
-    setCategory(e.target.value)
+    setCategory(e.target.value);
   }
 
   console.log(category);
@@ -401,132 +478,149 @@ function Fixed({ productList, setProductList }) {
     <div>
       <h1 className='urunler-header'>Ürün Ekle</h1>
       <div className='inputs'>
-        <input type="text"
+        <input
+          type='text'
           placeholder='Ürün adını girin'
           required
           value={title}
-          onChange={(e) => { setTitle(e.target.value) }}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
         />
-        <input type="number"
+        <input
+          type='number'
           placeholder='Ürün fiyatını girin'
           required
           value={cost}
-          onChange={(e) => { setCost(e.target.value) }}
+          onChange={(e) => {
+            setCost(e.target.value);
+          }}
         />
-        <input type="number"
+        <input
+          type='number'
           placeholder='Stok girin'
           required
           value={stock}
-          onChange={(e) => { setStock(e.target.value) }}
+          onChange={(e) => {
+            setStock(e.target.value);
+          }}
         />
         <div className='category-option'>
-          <select className='category-kismi' value={category} onChange={handleChange}>
-            <option value="Tümü">Tümü</option>
-            <option value="Elektrik">Elektrik</option>
-            <option value="Tekstil">Tekstil</option>
-            <option value="Spor">Spor</option>
+          <select
+            className='category-kismi'
+            value={category}
+            onChange={handleChange}
+          >
+            <option value='Tümü'>Tümü</option>
+            <option value='Elektrik'>Elektrik</option>
+            <option value='Tekstil'>Tekstil</option>
+            <option value='Spor'>Spor</option>
           </select>
         </div>
-        <button className='ürün-ekle' onClick={addProduct}>Ürün Ekleyin</button>
+        <button className='ürün-ekle' onClick={addProduct}>
+          Ürün Ekleyin
+        </button>
       </div>
     </div>
-  )
-
+  );
 }
 
 export function App() {
-
   const [cart, setCart] = useStickyState([], 'cart');
   const [price, setPrice] = useStickyState(0, 'price');
   const [isEditModOn, setisEditmodOn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [productList, setProductList] = useStickyState([{
-    id: 1,
-    title: 'Iphone 15',
-    category: 'Elektronik',
-    price: 100000,
-    stock: 5
-  },
-  {
-    id: 2,
-    title: 'Pantolon',
-    category: 'Tekstil',
-    price: 500,
-    stock: 100
-  },
-  {
-    id: 3,
-    title: 'T-shirt',
-    category: 'Tekstil',
-    price: 300,
-    stock: 50
-  },
-  {
-    id: 4,
-    title: 'Gömlek',
-    category: 'Tekstil',
-    price: 2000,
-    stock: 20
-  },
-  {
-    id: 5,
-    title: 'Monster',
-    category: 'Elektronik',
-    price: 20000,
-    stock: 15
-  },
-  {
-    id: 6,
-    title: 'Kulaklık',
-    category: 'Elektronik',
-    price: 3500,
-    stock: 2
-  },
-  {
-    id: 7,
-    title: 'Top',
-    category: 'Spor',
-    price: 50,
-    stock: 150
-  },
-  {
-    id: 8,
-    title: 'Mouse',
-    category: 'Elektronik',
-    price: 500,
-    stock: 10
-  },
-  {
-    id: 9,
-    title: 'Forma',
-    category: 'Spor',
-    price: 1000,
-    stock: 35
-  },
-  {
-    id: 10,
-    title: 'Ayakkabı',
-    category: 'Tekstil',
-    price: 1000,
-    stock: 10
-  },
-  {
-    id: 11,
-    title: 'HP',
-    category: 'Elektronik',
-    price: 50000,
-    stock: 5
-  },
-  {
-    id: 12,
-    title: 'Çanta',
-    category: 'Tekstil',
-    price: 550,
-    stock: 3
-  }], 'productList')
+  const [productList, setProductList] = useStickyState(
+    [
+      {
+        id: 1,
+        title: 'Iphone 15',
+        category: 'Elektronik',
+        price: 100000,
+        stock: 5,
+      },
+      {
+        id: 2,
+        title: 'Pantolon',
+        category: 'Tekstil',
+        price: 500,
+        stock: 100,
+      },
+      {
+        id: 3,
+        title: 'T-shirt',
+        category: 'Tekstil',
+        price: 300,
+        stock: 50,
+      },
+      {
+        id: 4,
+        title: 'Gömlek',
+        category: 'Tekstil',
+        price: 2000,
+        stock: 20,
+      },
+      {
+        id: 5,
+        title: 'Monster',
+        category: 'Elektronik',
+        price: 20000,
+        stock: 15,
+      },
+      {
+        id: 6,
+        title: 'Kulaklık',
+        category: 'Elektronik',
+        price: 3500,
+        stock: 2,
+      },
+      {
+        id: 7,
+        title: 'Top',
+        category: 'Spor',
+        price: 50,
+        stock: 150,
+      },
+      {
+        id: 8,
+        title: 'Mouse',
+        category: 'Elektronik',
+        price: 500,
+        stock: 10,
+      },
+      {
+        id: 9,
+        title: 'Forma',
+        category: 'Spor',
+        price: 1000,
+        stock: 35,
+      },
+      {
+        id: 10,
+        title: 'Ayakkabı',
+        category: 'Tekstil',
+        price: 1000,
+        stock: 10,
+      },
+      {
+        id: 11,
+        title: 'HP',
+        category: 'Elektronik',
+        price: 50000,
+        stock: 5,
+      },
+      {
+        id: 12,
+        title: 'Çanta',
+        category: 'Tekstil',
+        price: 550,
+        stock: 3,
+      },
+    ],
+    'productList'
+  );
 
   function editMod() {
-
     if (isEditModOn) {
       setisEditmodOn(false);
     } else {
@@ -538,15 +632,23 @@ export function App() {
       <div className='container'>
         <Switch onClick={editMod} className='ürünicin' />
         {/* <label className='ürünicin'><input type="checkbox" onClick={editMod} />Ürün Ekle</label> */}
-        {isEditModOn ? (<Fixed productList={productList} setProductList={setProductList} />) : (<><ShowList cart={cart} setCart={setCart} price={price} setPrice={setPrice} productList={productList} setProductList={setProductList} isOpen={isOpen} setIsOpen={setIsOpen} />
-        </>)
-        }
+        {isEditModOn ? (
+          <Fixed productList={productList} setProductList={setProductList} />
+        ) : (
+          <>
+            <ShowList
+              cart={cart}
+              setCart={setCart}
+              price={price}
+              setPrice={setPrice}
+              productList={productList}
+              setProductList={setProductList}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+            />
+          </>
+        )}
       </div>
     </>
-  )
-
+  );
 }
-
-
-
-
