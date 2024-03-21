@@ -3,7 +3,21 @@
 *::after {
   box-sizing: border-box;
 }
+:root {
+  --Adark-purple: #1e1b4b;
+  --Amiddle-dark-purple: #312e81;
+  --Alight-dark-purple: #3730a3;
+  --Amax-dark-purple: #818cf8;
+  --Amin-dark-purple: #a5b4fc;
 
+  --Bdark-purple: #2e1065;
+  --Bmiddle-dark-purple: #4c1d95;
+  --Blight-dark-purple: #7c3aed;
+  --Bmax-dark-purple: #a78bfa;
+  --Bmin-dark-purple: #e9d5ff;
+
+  --gray: #111827;
+}
 * {
   margin: 0;
 }
@@ -11,6 +25,10 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 img,
@@ -60,6 +78,107 @@ li {
   font-size: 40px;
 }
 
+/* second-btn */
+
+.btn {
+  margin-top: 1rem;
+  display: inline-block;
+  padding-inline: 20px;
+  padding-block: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  background-color: var(--Adark-purple);
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  z-index: 1;
+  font-family: inherit;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--Bmin-dark-purple);
+  transform: translateX(-100%);
+  transition: all 0.3s;
+  z-index: -1;
+}
+.btn:hover {
+  color: var(--Adark-purple);
+}
+.btn:hover::before {
+  transform: translateX(0);
+  color: var(--Adark-purple);
+}
+
+/* buton */
+.button {
+  position: relative;
+  width: 150px;
+  height: 35px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--Alight-dark-purple);
+  background-color: var(--Adark-purple);
+  border-radius: 12px;
+}
+
+.button,
+.button__icon,
+.button__text {
+  transition: all 0.3s;
+}
+
+.button .button__text {
+  padding-left: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.button .button__icon {
+  position: absolute;
+  transform: translateX(109px);
+  height: 100%;
+  width: 39px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #1e1b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.button:hover {
+  background: var(--Blight-dark-purple);
+}
+
+.button:hover .button__text {
+  color: transparent;
+}
+
+.button:hover .button__icon {
+  width: 148px;
+  transform: translateX(0);
+}
+
+.button:active .button__icon {
+  background-color: var(--Amax-dark-purple);
+}
+
+.button:active {
+  border: 1px solid #2e8644;
+}
 .img-position {
   position: relative;
 }
@@ -86,11 +205,17 @@ a:hover {
 
 .search-input {
   border-radius: 20px;
-  border-color: #c651cd;
+  border-color: #4a4356;
   border-style: solid;
   padding-inline: 12px;
   padding-block: 5px;
   color: #717171;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.3);
+  width: 400px;
 }
 
 .search-basket:focus {
@@ -107,15 +232,16 @@ a:hover {
 
 .basketItem {
   color: white;
-  background-color: #c651cd;
+  background-color: var(--Bdark-purple);
   border-style: solid;
   padding: 3px;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
+  font-size: 15px;
   position: absolute;
-  bottom: 0px;
-  right: 0px;
+  bottom: -5px;
+  right: -4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,9 +254,9 @@ a:hover {
 }
 
 .list-item {
+  background-color: #f9fafb;
   gap: 0.5em;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.4);
+
   border-radius: 7px;
   margin-bottom: 1em;
   padding: 0.5em;
@@ -158,31 +284,49 @@ a:hover {
 .basket {
   display: flex;
   flex-direction: column;
-  color: #717171;
+  color: var(--gray);
   gap: 0.5em;
 }
-
+.sepet {
+  width: 400px;
+  height: 100vh;
+}
 .basket-all {
+  position: absolute;
+  right: 0;
+  background-color: #f9fafb;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.4);
+
   padding: 2em;
-  max-width: 400px;
-  margin-bottom: 1em;
+  height: 100vh;
   border-radius: 10px;
   margin: auto;
+  z-index: 233;
+}
+.basket-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+  justify-content: space-between;
+  &h2 {
+    color: var(--Amax-dark-purple);
+  }
 }
 
-.basket-all h2 {
-  color: #c651cd;
+.close-basket {
+  font-size: 25px;
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 1em;
+  cursor: pointer;
+  &:hover {
+    color: var(--Bmin-dark-purple);
+  }
 }
 
 .basket-item {
+  color: var(--gray);
   margin-bottom: 1em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  padding-bottom: 5px;
+  padding-bottom: 1rem;
 }
 
 .basket-item:last-child {
@@ -215,7 +359,7 @@ a:hover {
 }
 
 .many {
-  color: #8739f9;
+  color: var(--Adark-purple);
 }
 
 .increase {
@@ -229,18 +373,20 @@ a:hover {
 }
 
 .total {
-  color: #c651cd;
+  margin-top: 1rem;
+  font-size: 17px;
+  color: var(--Bmin-dark-purple);
   font-weight: bold;
 }
 
 .product-info {
-  color: #717171;
+  color: var(--Bmax-dark-purple);
   font-size: 15px;
   font-weight: bold;
 }
 
 .product-info strong {
-  color: #c651cd;
+  color: var(--gray);
   font-weight: bold;
 }
 
@@ -279,14 +425,18 @@ a:hover {
 }
 
 .inputs input {
-  width: 300px;
+  width: auto;
+  padding-inline: 12px;
+  padding-block: 5px;
   border-radius: 7px;
   border-style: solid;
+  color: var(--Bmax-dark-purple);
+  font-weight: bold;
+  outline: none;
   border-color: rgba(0, 0, 0, 0.1);
 }
 
 .inputs input::placeholder {
-  padding-left: 7px;
 }
 
 .inputs input:first-child {
@@ -326,11 +476,18 @@ a:hover {
 
 .category-kismi {
   border-color: rgba(0, 0, 0, 0.1);
+  padding-inline: 12px;
+  padding-block: 5px;
+  width: auto;
+
+  &select {
+    background-color: pink;
+  }
 }
 
 .urunler-header {
   text-align: center;
-  color: #8739f9;
+  color: var(--Adark-purple);
   margin-bottom: 2em;
   margin-top: 1em;
 }
