@@ -178,12 +178,15 @@ function ShoppingCart({
       <ul className='basket-list'>
         {cart.map((product) => (
           <li className='basket-item' key={product.id}>
+            <div className='basket-resim'>
+              <img src={product.img} alt='' />
+            </div>
             <div className='basket'>
-              <span className='little-title'>Ürün Adı: {product.title}</span>
-              <span className='little-category'>
-                Kategori: {product.category}
+              <span className='little-title'> {product.title}</span>
+
+              <span className='little-price'>
+                {product.price.toLocaleString('en')} ₺
               </span>
-              <span className='little-price'>Fiyat: {product.price} ₺</span>
             </div>
             <div className='increase-decrease'>
               <span
@@ -207,9 +210,15 @@ function ShoppingCart({
       </ul>
       <hr />
       <div className='total-button'>
-        <span className='total'>Toplam Fiyat: {price} ₺</span>
+        <span className='total'>
+          Toplam Fiyat:
+          {price.toLocaleString('en')} ₺
+        </span>
         <button className=' btn' onClick={deleteCart}>
           Sepeti Sil
+        </button>
+        <button className=' btn' onClick={deleteCart}>
+          Sipariş Ver
         </button>
       </div>
     </div>
@@ -231,7 +240,7 @@ function ShowList({
   let filteredProducts = [];
 
   //Kategoriye ayırma
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Tümü');
   const [search, setSearch] = useState('');
 
   //Kategoriler
@@ -327,16 +336,32 @@ function ShowList({
       </div>
       <div id='category-list'>
         {}
-        <a href='#' onClick={() => handleCategoryClick('Tümü')}>
+        <a
+          href='#'
+          onClick={() => handleCategoryClick('Tümü')}
+          style={{ color: category === 'Tümü' ? '#1e1b4b' : '#a8a9a9' }}
+        >
           Tümü
         </a>
-        <a href='#' onClick={() => handleCategoryClick('Elektronik')}>
+        <a
+          href='#'
+          onClick={() => handleCategoryClick('Elektronik')}
+          style={{ color: category === 'Elektronik' ? '#1e1b4b' : '#a8a9a9' }}
+        >
           Elektronik
         </a>
-        <a href='#' onClick={() => handleCategoryClick('Tekstil')}>
+        <a
+          href='#'
+          onClick={() => handleCategoryClick('Tekstil')}
+          style={{ color: category === 'Tekstil' ? '#1e1b4b' : '#a8a9a9' }}
+        >
           Tekstil
         </a>
-        <a href='#' onClick={() => handleCategoryClick('Spor')}>
+        <a
+          href='#'
+          onClick={() => handleCategoryClick('Spor')}
+          style={{ color: category === 'Spor' ? '#1e1b4b' : '#a8a9a9' }}
+        >
           Spor
         </a>
       </div>
@@ -344,48 +369,51 @@ function ShowList({
       <div className='product-list'>
         {filteredProducts.map((product) => (
           <div className='list-item' key={product.id}>
-            <div className='product-info'>
-              {/* <span>id: {product.id}</span> */}
-              <span className='product-title'>
-                <strong>Product: </strong>
-                {product.title}
-              </span>
-              <span className='product-category'>
-                <strong>Category: </strong>
-                {product.category}
-              </span>
-              <span className='product-price'>
-                <strong>Price: </strong>
-                {new Intl.NumberFormat('tr-TR', {
-                  style: 'currency',
-                  currency: 'TRY',
-                }).format(product.price)}
-              </span>
-              <span className='product-stock'>
-                <strong>Stock: </strong>
-                {product.stock}
-              </span>
+            <div className='resim'>
+              <img src={product.img} alt='' />
             </div>
-            <div className='basket-buton'>
-              <button
-                type='button'
-                className='button'
-                onClick={() => setIsOpen(true)}
-              >
-                <span className='button__text'>Sepete Ekle</span>
-                <span
-                  className='button__icon'
-                  onClick={() => addToCart(product.id)}
-                >
-                  +
+            <div className='info-btns'>
+              <div className='product-info'>
+                {/* <span>id: {product.id}</span> */}
+
+                <span className='product-title'>
+                  <strong>Product: </strong>
+                  {product.title}
                 </span>
-              </button>
-              {/* <button
-                className='del-product'
-                onClick={() => delProduct(product.id)}
-              >
-                Ürünü Sil
-              </button> */}
+                <span className='product-category'>
+                  <strong>Category: </strong>
+                  {product.category}
+                </span>
+                <span className='product-price'>
+                  <strong>Price: </strong>
+                  {product.price.toLocaleString('en')} ₺
+                </span>
+                <span className='product-stock'>
+                  <strong>Stock: </strong>
+                  {product.stock}
+                </span>
+              </div>
+              <div className='basket-buton'>
+                <button
+                  type='button'
+                  className='button'
+                  onClick={() => setIsOpen(true)}
+                >
+                  <span className='button__text'>Sepete Ekle</span>
+                  <span
+                    className='button__icon'
+                    onClick={() => addToCart(product.id)}
+                  >
+                    +
+                  </span>
+                </button>
+                {/* <button
+                  className='del-product'
+                  onClick={() => delProduct(product.id)}
+                >
+                  Ürünü Sil
+                </button> */}
+              </div>
             </div>
           </div>
         ))}
@@ -399,10 +427,12 @@ function Fixed({ productList, setProductList }) {
   const [category, setCategory] = useState('');
   const [cost, setCost] = useState('');
   const [stock, setStock] = useState('');
+  const [img, setImg] = useState('');
 
   function addProduct() {
     const newProduct = {
       id: ProductId(),
+      img: img,
       title: title,
       category: category,
       price: Number(cost),
@@ -412,7 +442,7 @@ function Fixed({ productList, setProductList }) {
     const alreadyHave = productList.find((product) => product.title == title);
     console.log(alreadyHave);
     if (alreadyHave == undefined) {
-      if (title !== '' && price !== '' && category !== '') {
+      if (title !== '' && cost !== '' && category !== '') {
         setProductList([...productList, newProduct]);
         alert('Ürün başarıyla eklendi');
       } else {
@@ -426,6 +456,7 @@ function Fixed({ productList, setProductList }) {
     setCategory('');
     setCost('');
     setStock('');
+    setImg('');
   }
 
   let lastProductId = 12;
@@ -475,6 +506,15 @@ function Fixed({ productList, setProductList }) {
             setStock(e.target.value);
           }}
         />
+        <input
+          type='text'
+          placeholder='Resim adresi girin'
+          required
+          value={img}
+          onChange={(e) => {
+            setImg(e.target.value);
+          }}
+        />
         <div className='category-option'>
           <select
             className='category-kismi'
@@ -505,6 +545,7 @@ export function App() {
     [
       {
         id: 1,
+        img: 'https://picsum.photos/200',
         title: 'Iphone 15',
         category: 'Elektronik',
         price: 100000,
@@ -512,6 +553,7 @@ export function App() {
       },
       {
         id: 2,
+        img: 'https://picsum.photos/500',
         title: 'Pantolon',
         category: 'Tekstil',
         price: 500,
@@ -519,6 +561,7 @@ export function App() {
       },
       {
         id: 3,
+        img: 'https://picsum.photos/400',
         title: 'T-shirt',
         category: 'Tekstil',
         price: 300,
@@ -526,6 +569,7 @@ export function App() {
       },
       {
         id: 4,
+        img: 'https://picsum.photos/200',
         title: 'Gömlek',
         category: 'Tekstil',
         price: 2000,
@@ -533,6 +577,7 @@ export function App() {
       },
       {
         id: 5,
+        img: 'https://picsum.photos/200',
         title: 'Monster',
         category: 'Elektronik',
         price: 20000,
@@ -540,6 +585,7 @@ export function App() {
       },
       {
         id: 6,
+        img: 'https://picsum.photos/200',
         title: 'Kulaklık',
         category: 'Elektronik',
         price: 3500,
@@ -547,6 +593,7 @@ export function App() {
       },
       {
         id: 7,
+        img: 'https://picsum.photos/200',
         title: 'Top',
         category: 'Spor',
         price: 50,
@@ -554,6 +601,7 @@ export function App() {
       },
       {
         id: 8,
+        img: 'https://picsum.photos/200',
         title: 'Mouse',
         category: 'Elektronik',
         price: 500,
@@ -561,6 +609,7 @@ export function App() {
       },
       {
         id: 9,
+        img: 'https://picsum.photos/200',
         title: 'Forma',
         category: 'Spor',
         price: 1000,
@@ -568,6 +617,7 @@ export function App() {
       },
       {
         id: 10,
+        img: 'https://picsum.photos/200',
         title: 'Ayakkabı',
         category: 'Tekstil',
         price: 1000,
@@ -575,6 +625,7 @@ export function App() {
       },
       {
         id: 11,
+        img: 'https://picsum.photos/200',
         title: 'HP',
         category: 'Elektronik',
         price: 50000,
@@ -582,6 +633,7 @@ export function App() {
       },
       {
         id: 12,
+        img: 'https://picsum.photos/200',
         title: 'Çanta',
         category: 'Tekstil',
         price: 550,

@@ -191,7 +191,7 @@ li {
 
 #category-list a:focus,
 a:hover {
-  color: #8739f9;
+  color: var(--Adark-purple);
   font-weight: bold;
 }
 .active {
@@ -210,6 +210,8 @@ a:hover {
   padding-inline: 12px;
   padding-block: 5px;
   color: #717171;
+  width: 200px;
+  transition: width 0.5s ease;
 }
 
 .search-input:focus {
@@ -255,21 +257,25 @@ a:hover {
 
 .list-item {
   background-color: #f9fafb;
-  gap: 0.5em;
+  padding-block: 1rem;
+  display: flex;
+  gap: 12px;
 
   border-radius: 7px;
-  margin-bottom: 1em;
-  padding: 0.5em;
 }
 
 .product-info {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 15px;
   margin-bottom: 1em;
   padding: 0.5em;
 }
-
+.resim img {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+}
 .container {
   margin-left: 10%;
   margin-right: 10%;
@@ -292,17 +298,19 @@ a:hover {
   height: 100vh;
 }
 .basket-all {
-  position: absolute;
+  position: fixed;
   right: 0;
+  width: 300px;
+  height: 100%;
   background-color: #f9fafb;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-
   padding: 2em;
-  height: 100vh;
   border-radius: 10px;
   margin: auto;
   z-index: 233;
+  overflow-y: hidden;
 }
+
 .basket-header {
   display: flex;
   align-items: center;
@@ -323,10 +331,20 @@ a:hover {
 }
 
 .basket-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-top: 1em;
+  padding-bottom: 1em;
+  padding-top: 1em;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px;
   color: var(--gray);
-  margin-bottom: 1em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
 }
 
 .basket-item:last-child {
@@ -335,8 +353,14 @@ a:hover {
 
 .basket-list {
   margin-bottom: 1em;
+  max-height: 600px;
+  overflow-y: auto;
 }
-
+.basket-resim img {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+}
 .total-button {
   display: flex;
   flex-direction: column;
@@ -347,7 +371,6 @@ a:hover {
 }
 
 .increase-decrease {
-  margin-left: 50px;
   font-size: 20px;
   font-weight: bold;
   color: #717171;
@@ -365,11 +388,6 @@ a:hover {
 .increase {
   margin-left: 10px;
   cursor: pointer;
-}
-
-.basket-item {
-  display: flex;
-  align-items: center;
 }
 
 .total {
@@ -411,7 +429,7 @@ a:hover {
   gap: 80px;
   justify-content: center;
   font-size: 25px;
-  color: #717171;
+  color: #a8a9a9;
   font-weight: bold;
   margin-bottom: 1.5em;
 }
@@ -521,4 +539,90 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media only screen and (max-width: 1100px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .list-item {
+    background-color: #f9fafb;
+    padding-block: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 7px;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .list-item {
+    background-color: #f9fafb;
+    padding-block: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    gap: 12px;
+    border-radius: 7px;
+
+    & .resim {
+      align-self: center;
+    }
+  }
+  #category-list {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    font-size: 20px;
+    color: #a8a9a9;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.3);
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .product-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #category-list {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    font-size: 17px;
+    color: #a8a9a9;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.3);
+    width: 200px;
+  }
+  .basket-all {
+    width: 100%;
+  }
+  .basket-item {
+    justify-content: space-between;
+  }
+  .basket-list {
+    margin-bottom: 1em;
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
