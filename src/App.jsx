@@ -1,5 +1,5 @@
 import './App.css';
-import Basketlogo from '../assets/icons8-basket-48.png';
+
 import { useState } from 'react';
 import Basketalllogo from '../assets/icons8-bag-32.png';
 import useStickyState from '../src/helper';

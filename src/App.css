@@ -77,7 +77,16 @@ li {
   text-align: center;
   font-size: 40px;
 }
-
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateX(25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 /* second-btn */
 
 .btn {
@@ -309,6 +318,8 @@ a:hover {
   margin: auto;
   z-index: 233;
   overflow-y: hidden;
+  animation: slide-down 300ms ease-out forwards;
+  transition: 0.1s ease;
 }
 
 .basket-header {
@@ -452,9 +463,6 @@ a:hover {
   font-weight: bold;
   outline: none;
   border-color: rgba(0, 0, 0, 0.1);
-}
-
-.inputs input::placeholder {
 }
 
 .inputs input:first-child {
